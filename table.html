@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>  
+<html>  
+  
+<head> 
+    <title> 
+        Student Data
+    </title>
+      
+    <script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+    </script>
+</head> 
+  
+<body style = "text-align:center;">  
+      
+    <h1>  
+        Student Data Display  
+    </h1>
+      
+    <p id = "GFG_UP" style =
+            "font-size: 15px; font-weight: bold;">
+    </p>
+      
+    <button onclick="loadStudentData()">Load Student Data</button>
+      
+    <table id="table" style="margin-top:1rem;" align="center" cellpadding="1" border="1px"></table>
+      
+    <script>
+        function loadStudentData() {
+  const xhttp = new XMLHttpRequest();
+  xhttp.onload = function() {
+    // document.getElementById("demo").innerHTML = this.responseText;
+    const mainData = JSON.parse(this.responseText);
+    // console.log(mainData);
+    const list = JSON.parse(this.responseText);
+    
+    var cols = [];
+              
+            for (var i = 0; i < list.length; i++) {
+                for (var k in list[i]) {
+                    if (cols.indexOf(k) === -1) {
+                          
+                        // Push all keys to the array
+                        cols.push(k);
+                    }
+                }
+            }
+              
+            // Create a table element
+            var table = document.createElement("table");
+              
+            // Create table row tr element of a table
+            var tr = table.insertRow(-1);
+              
+            for (var i = 0; i < cols.length; i++) {
+                  
+                // Create the table header th element
+                var theader = document.createElement("th");
+                theader.innerHTML = cols[i];
+                  
+                // Append columnName to the table row
+                tr.appendChild(theader);
+            }
+              
+            // Adding the data to the table
+            for (var i = 0; i < list.length; i++) {
+                  
+                // Create a new row
+                trow = table.insertRow(-1);
+                for (var j = 0; j < cols.length; j++) {
+                    var cell = trow.insertCell(-1);
+                      
+                    // Inserting the cell at particular place
+                    cell.innerHTML = list[i][cols[j]];
+                }
+            }
+              
+            // Add the newely created table containing json data
+            var el = document.getElementById("table");
+            el.innerHTML = "";
+            el.appendChild(table);
+
+
+  }
+  xhttp.open("GET", "http://127.0.0.1:5000/report");
+  xhttp.send();
+}
+setInterval(function(){
+    loadDoc();
+}, 2000);
+    </script> 
+</body>  
+  
+</html>
